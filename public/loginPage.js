@@ -1,17 +1,30 @@
 "use strict";
 
-let userForm = new UserForm();
+let enter = new UserForm();
 
-userForm.constructor = {
-    login: "oleg@demo.ru",
-    password: "demo"
-};
-
-userForm.loginFormCallback = data => {
-    data = userForm.constructor;
+enter.loginFormCallback = ({login, password}) => {
     ApiConnector.login({
-        login: "oleg@demo.ru",
-        password: "demo"
-    });
+        login,
+        password,
+    }, response => console.log(response));
+    console.log(`Логин: ${login} Пароль: ${password}`);
+    if (ApiConnector._parseResponseBody(response)) {
+        location.reload();
+    } else {
+        throw new Error("Неудачная попытка авторизации");
+    }
+}
 
+
+enter.registerFormCallback = ({login, password}) => {
+    ApiConnector.register({
+        login,
+        password,
+    }, response => console.log(response));
+    console.log(`Логин: ${login} Пароль: ${password}`);
+    if (ApiConnector._parseResponseBody(response)) {
+        location.reload();
+    } else {
+        throw new Error("Неудачная попытка регистрации");
+    }
 }
