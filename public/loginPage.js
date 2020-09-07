@@ -1,30 +1,33 @@
 "use strict";
 
-let enter = new UserForm();
+let userLog = new UserForm();
 
-enter.loginFormCallback = ({login, password}) => {
+userLog.loginFormCallback = ({login, password}) => {
     ApiConnector.login({
         login,
         password,
-    }, response => console.log(response));
-    console.log(`Логин: ${login} Пароль: ${password}`);
-    if (ApiConnector._parseResponseBody(response)) {
+    }, response => {
+        if (response.success) {
         location.reload();
-    } else {
-        throw new Error("Неудачная попытка авторизации");
-    }
+        } else {
+        userLog.setLoginErrorMessage("Авторизация не удалась.");
+        }
+      });
+    console.log(`Логин: ${login} Пароль: ${password}`);  
 }
 
 
-enter.registerFormCallback = ({login, password}) => {
+userLog.registerFormCallback = ({login, password}) => {
     ApiConnector.register({
         login,
         password,
-    }, response => console.log(response));
+    }, response => {
+        if (response.success) {
+            location.reload();
+        } else {
+            userLog.setRegisterErrorMessage("Регистрация не удалась.");
+        }
+
+    });
     console.log(`Логин: ${login} Пароль: ${password}`);
-    if (ApiConnector._parseResponseBody(response)) {
-        location.reload();
-    } else {
-        throw new Error("Неудачная попытка регистрации");
-    }
 }
