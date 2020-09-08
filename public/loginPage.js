@@ -8,9 +8,9 @@ userLog.loginFormCallback = ({login, password}) => {
         password,
     }, response => {
         if (response.success) {
-        location.reload();
+            location.reload();
         } else {
-        userLog.setLoginErrorMessage("Авторизация не удалась.");
+            userLog.setLoginErrorMessage(response.error);
         }
       });
     console.log(`Логин: ${login} Пароль: ${password}`);  
@@ -25,9 +25,8 @@ userLog.registerFormCallback = ({login, password}) => {
         if (response.success) {
             location.reload();
         } else {
-            userLog.setRegisterErrorMessage("Регистрация не удалась.");
+            userLog.setRegisterErrorMessage(response.error);
         }
-
     });
     console.log(`Логин: ${login} Пароль: ${password}`);
 }

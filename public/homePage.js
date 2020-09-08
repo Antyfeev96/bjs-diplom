@@ -39,6 +39,8 @@ manager.addMoneyCallback = data => {
       if (response.success) {
           ProfileWidget.showProfile(response.data);
           manager.setMessage(response.success, `Вы успешно добавили ${data.amount} ${data.currency}`);
+      } else {
+          manager.setMessage(response.success, response.error);
       }
     }
 )}
@@ -48,6 +50,8 @@ manager.conversionMoneyCallback = data => {
       if (response.success) {
           ProfileWidget.showProfile(response.data);
           manager.setMessage(response.success, "Конвертация выполнена успешно");
+      } else {
+        manager.setMessage(response.success, response.error);
       }
     }
 )}
@@ -57,6 +61,8 @@ manager.sendMoneyCallback = data => {
       if (response.success) {
           ProfileWidget.showProfile(response.data);
           manager.setMessage(response.success, "Cредства успешно переведены.");
+      } else {
+          manager.setMessage(response.success, response.error);
       }
     }
 )}
@@ -79,8 +85,11 @@ myFavorites.addUserCallback = data => {
         myFavorites.clearTable();
         myFavorites.fillTable(response.data);
         manager.updateUsersList(response.data);
+        myFavorites.setMessage(response.success, "Пользователь успешно добавлен в избранное!");
+    } else {
+        myFavorites.setMessage(response.success, response.error);
     }
-    myFavorites.setMessage(response.success, "Пользователь успешно добавлен в избранное!");
+    
 })
 }
 
@@ -90,7 +99,10 @@ myFavorites.removeUserCallback = data => {
         myFavorites.clearTable();
         myFavorites.fillTable(response.data);
         manager.updateUsersList(response.data);
+        myFavorites.setMessage(response.success, "Пользователь успешно удален.");
+    } else {
+        myFavorites.setMessage(response.success, response.error);
     }
-    myFavorites.setMessage(response.success, "Пользователь успешно удален.");
+    
 })
 }
